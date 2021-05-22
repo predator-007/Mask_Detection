@@ -9,7 +9,7 @@ function App() {
     height: 200,
     facingMode: "user"
   };
-  
+  const [prediction,setprediction]=useState("");
   const webcamRef=useRef(null);
 
   const clas=['with mask','without mask']
@@ -17,7 +17,6 @@ function App() {
   const [image,setimage]=useState(null);
   var Model;
   var imgtensor;
-
   const loadmodel=async()=>{
   Model=await tfjs.loadLayersModel("/modeljs/model.json");
   console.log("model loaded");
@@ -27,6 +26,7 @@ function App() {
       const imageSrc = webcamRef.current.getScreenshot();
       setimage(imageSrc);
       console.log(image);
+
     },
 
     [webcamRef]
@@ -37,6 +37,7 @@ function App() {
 
   const stoi=(a)=>{
     var index=parseInt(a[0]);
+      setprediction(clas[index]);
       return clas[index];   
   }
   const pred=async()=>{
@@ -61,26 +62,33 @@ function App() {
       console.log(err);
     }
   }
-
+  
   return (
     <div className="App">
     <h1>mask detection</h1>
     <Webcam
         audio={false}
-        height={200}
+        height={400}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
-        width={260}
+        width={460}
         videoConstraints={videoConstraints}
+        style={{marginRight:"10px"}}
       />
+    <img src={image} width="260" height="200"></img>
     <button
     onClick={(e)=>{e.preventDefault();captureimg();}}
     >capture</button>
     <button onClick={()=>pred()}
     >predict</button>
-    <img src={image}></img>
-    </div>
+    { prediction=="with mask"?
+      <h2 style={{color:"green"}}>{prediction}</h2>
+      :
+      <h2 style={{color:"red"}}>{prediction}</h2>
+    }
     
+    </div>
+        
   );
 }
 
