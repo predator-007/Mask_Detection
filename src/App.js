@@ -43,6 +43,11 @@ function App() {
       return clas[index];   
   }
   const pred=async()=>{
+    if(image==null)
+    {
+      setprediction("capture the image");
+      return;
+    }
     setloading(true);
     Model=await tfjs.loadLayersModel("/mymodeljs/model.json");
     var img=new Image();
@@ -124,7 +129,7 @@ function App() {
       :(prediction=="with mask" )?
       <h2 style={{color:"green",boxShadow:"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>{prediction}</h2>
       :
-      <h2 style={{color:"red"}}>{prediction}</h2>
+      <h2 style={{color:"red",boxShadow:"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>{prediction}</h2>
     }
     
     
