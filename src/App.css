@@ -1,31 +1,18 @@
-.App {
-  text-align: center;
+body{
+  background:url("https://i.pinimg.com/originals/71/92/5c/71925c75936297af1e041e98cebfdfe6.jpg");
+   
 }
+.title{
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    display:"block";
+    text-align: center;
+    color: darkblue;
+    text-shadow:5px 5px 10px #a9c5a9;
+    font-family: Georgia, 'Times New Roman', Times, serif
+    
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.titleborder{
+  background: whitesmoke;  
 }
 
 @keyframes blink{
@@ -34,6 +21,14 @@
   }
   to {
     opacity: 0;
+  }
+}
+@keyframes shrink{
+  from {
+    font-size: large;
+  }
+  to {
+    font-size: x-large;
   }
 }
 @media only screen and (max-width: 727px) {
