@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import * as tfjs from "@tensorflow/tfjs";
 import Webcam from 'react-webcam';
+import { Button } from '@material-ui/core';
 function App() {
   
   const videoConstraints = {
@@ -11,14 +12,14 @@ function App() {
   };
   const [prediction,setprediction]=useState("");
   const webcamRef=useRef(null);
-
+  const [loading,setloading]=useState(false);
   const clas=['with mask','without mask']
         
   const [image,setimage]=useState(null);
   var Model;
   var imgtensor;
   const loadmodel=async()=>{
-  Model=await tfjs.loadLayersModel("/modeljs/model.json");
+  Model=await tfjs.loadLayersModel("/mymodeljs/model.json");
   console.log("model loaded");
   }
   const captureimg = React.useCallback(
@@ -38,9 +39,11 @@ function App() {
   const stoi=(a)=>{
     var index=parseInt(a[0]);
       setprediction(clas[index]);
+      setloading(false);
       return clas[index];   
   }
   const pred=async()=>{
+    setloading(true);
     Model=await tfjs.loadLayersModel("/mymodeljs/model.json");
     var img=new Image();
     img.crossOrigin='anonymous';
@@ -62,10 +65,21 @@ function App() {
       console.log(err);
     }
   }
-  
   return (
-    <div className="App">
-    <h1>mask detection</h1>
+    <div className="App" >
+     <h1
+            style={
+                {
+                    display:"block",
+                    textAlign:"center",
+                    color:"darkred",
+                    textShadow:"5px 5px 10px #00FF00",
+                    
+                }
+            }>
+      mask detection</h1>
+    <div className="cam" 
+    >
     <Webcam
         audio={false}
         height={400}
@@ -75,17 +89,44 @@ function App() {
         videoConstraints={videoConstraints}
         style={{marginRight:"10px"}}
       />
-    <img src={image} width="260" height="200"></img>
-    <button
+    <img className="capturedimg" src={image} width="260" height="200"
+    style={{
+      marginBottom:"8%"
+    }}
+    ></img>
+    </div>
+    <Button
+    variant="contained"
+    color="primary"
     onClick={(e)=>{e.preventDefault();captureimg();}}
-    >capture</button>
-    <button onClick={()=>pred()}
-    >predict</button>
-    { prediction=="with mask"?
-      <h2 style={{color:"green"}}>{prediction}</h2>
+    >capture</Button>
+    <Button
+    variant="contained"
+    color="secondary"
+    style={{marginLeft:"10%"}} 
+    onClick={()=>pred()}
+    >predict</Button>
+    {
+      loading?
+      <div>
+      <img src={"https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-6d0b072c3d3f.gif"}
+      style={
+        {
+          width:"15%",
+          height:"10%",
+          display:"inline-block",
+          marginLeft:"auto",
+          marginRight:"auto",
+        }
+      }
+      ></img>
+      </div>
+      :(prediction=="with mask" )?
+      <h2 style={{color:"green",boxShadow:"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"}}>{prediction}</h2>
       :
       <h2 style={{color:"red"}}>{prediction}</h2>
     }
+    
     
     </div>
         

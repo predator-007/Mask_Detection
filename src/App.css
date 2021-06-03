@@ -28,11 +28,19 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
+@keyframes blink{
   from {
-    transform: rotate(0deg);
+    opacity: 1;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 0;
+  }
+}
+@media only screen and (max-width: 727px) {
+  .capturedimg{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+   margin-bottom: 2%;
   }
 }
